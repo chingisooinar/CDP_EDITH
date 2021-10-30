@@ -121,11 +121,11 @@ USE_TZ = False
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 STATICFILES_DIRS=(
-     ("Style",os.path.join(STATIC_ROOT,'Style')),
-     ("Script",os.path.join(STATIC_ROOT,'Script')),
-     ("Image",os.path.join(STATIC_ROOT,'Image')),
-     ("Fonts",os.path.join(STATIC_ROOT,'Fonts')),
-     ("Files",os.path.join(STATIC_ROOT,'Files'))
+     ("style",os.path.join(STATIC_ROOT,'style')),
+     ("script",os.path.join(STATIC_ROOT,'script')),
+     ("image",os.path.join(STATIC_ROOT,'image')),
+     ("font",os.path.join(STATIC_ROOT,'font')),
+     ('file',os.path.join(STATIC_ROOT,'file'))
 )
 
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media').replace("\\", "/")
