@@ -71,6 +71,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'EDITH.wsgi.application'
 
+# Session
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+     
+SESSION_COOKIE_NAME = "sessionid"
+SESSION_COOKIE_PATH = "/"
+SESSION_COOKIE_DOMAIN = None
+SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_HTTPONLY = False
+SESSION_COOKIE_AGE = 1209600            # Two weeks
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_SAVE_EVERY_REQUEST = True
+
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
