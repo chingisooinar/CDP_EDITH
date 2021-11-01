@@ -20,6 +20,7 @@ from EDITH.settings import MEDIA_ROOT,STATIC_ROOT
 
 urlpatterns = [
     path("",include("homepage.urls")),
+    path("api/",include("api.urls")),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': STATIC_ROOT})
 ]
