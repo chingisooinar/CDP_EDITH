@@ -10,7 +10,9 @@
 		{% block style %}{% endblock %}
 	</head>
 	<body>
-		{% block body %}{% endblock %}
+		<div class="main">
+			{% block body %}{% endblock %}
+		</div>
 		<script src="{% static 'script/PageScripts/base.js' %}" type="text/javascript" charset="utf-8"></script>
 		{% block script %}{% endblock %}
 	</body>
