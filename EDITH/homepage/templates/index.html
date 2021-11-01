@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- title part -->
+{% block title %}
+EDITH
+{% endblock %}
+
+<!-- style part -->
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'style/PageStyles/index.css' %}"/>
+{% endblock %}
+
+<!-- body part -->
+{% block body %}
+<div class="line_bar" style="text-align: right;">
+	<button id="history_button" class="public_btns">History</button>
+</div>
+<div class="line_bar">
+	{% include 'sketch.html' %}
+</div>
+<div class="line_bar" style="text-align: center;">
+	<button id="generate_button" class="public_btns">Generate Image</button>
+	<button id="colorize_button" class="public_btns">Colorize Image</button>
+	<button id="complete_button" class="public_btns">Complete</button>
+</div>
+{% endblock %}
+
+<!-- script part -->
+{% block script %}
+<script src="{% static 'script/PageScripts/index.js' %}" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
