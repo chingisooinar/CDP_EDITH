@@ -38,7 +38,7 @@ for idx, image_name in tqdm(enumerate(glob(f'../{directory}/*.jpg'), 1)):
     img = Image.open(image_name)
     # get specific tags
     pred = illust2vec.estimate_specific_tags([img], needed_tags)[0]
-    # check if a guy
+   
 
     looking_at_viewer = (pred['looking at viewer'] >= 0.25) * 1.
     face = (pred['face'] >= 0.25) * 1.
