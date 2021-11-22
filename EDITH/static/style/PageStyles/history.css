@@ -1,0 +1,10 @@
+.line_bar{
+	width: 1000px;
+	text-align: center;
+	margin: 20px auto;
+	font-size: 0;
+}
+
+#edit_button{
+	float: left;
+}
