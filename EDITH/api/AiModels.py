@@ -121,3 +121,8 @@ def colorizeModel():
     ########################### for debugging
     marked = mark(bw_edges, image)
     color_edges = colorizeProcessing(marked)
+    color_edges_image = Image.fromarray(color_edges)
+    buffered = BytesIO()
+    color_edges_image.save(buffered, format="png")
+    img_str = base64.b64encode(buffered.getvalue())
+    return img_str

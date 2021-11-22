@@ -16,4 +16,12 @@ def sketch(request):
 
 def colorize(request):
     response = AiModels.colorizeModel()
-    return response
+    return HttpResponse(response,content_type="image/png")
+
+def toSketch(request):
+    response = cv2.imread("api/anime.jpg")
+    return HttpResponse(response,content_type="image/png")
+
+def toBw(request):
+    response = cv2.imread("api/anime.jpg")
+    return HttpResponse(response,content_type="image/png")
