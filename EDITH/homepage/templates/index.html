@@ -13,16 +13,37 @@ EDITH
 
 <!-- body part -->
 {% block body %}
-<div class="line_bar" style="text-align: right;">
-	<button id="history_button" class="public_btns">History</button>
+<div id="topBar" class="line_bar">
+	<button id="editing_button" class="public_btns" style="display: none;">Editing</button>
+	<div class="line_bar" style="width: 50%;display: inline-block;">
+		<title id="stateTitle"></title>
+	</div>
+	<button id="history_button" class="public_btns" style="display: inline-block;">History</button>
 </div>
+
 <div class="line_bar">
-	{% include 'sketch.html' %}
+	<div class="tag_menu">
+		<button id="tag_1" class="public_btns" onclick="tags(1)">Tag#1</button>
+		<button id="tag_3" class="public_btns" onclick="tags(2)">Tag#2</button>
+		<button id="tag_4" class="public_btns" onclick="tags(3)">Tag#3</button>
+		<button id="tag_5" class="public_btns" onclick="tags(4)">Tag#4</button>
+	</div>
+	<div style="display: inline-block;">
+		{% include 'sketch.html' %}
+	</div>
+	<div class="tag_menu">
+		
+	</div>
+	
 </div>
-<div class="line_bar" style="text-align: center;">
+<div class="line_bar" style="text-align: center;" id="operateBar">
 	<button id="generate_button" class="public_btns">Generate Image</button>
 	<button id="colorize_button" class="public_btns">Colorize Image</button>
 	<button id="complete_button" class="public_btns">Complete</button>
+</div>
+	<button id="download_button" class="public_btns" style="display: none;">Download</button>
+</div>
+	<button id="save_button" class="public_btns" style="display: none;">Save as</button>
 </div>
 {% endblock %}
 
