@@ -1,15 +1,21 @@
 from typing import Optional
-
 from fastapi import FastAPI
+import Models
+from io import BytesIO
+from starlette.responses import StreamingResponse
 
 app = FastAPI()
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+@app.get("/generate")
+def GenerateSketch():
+    request = 'anime.jpg'
+    response = Models.generateSketch(request)
+
+    return StreamingResponse(BytesIO(response.tobytes()), media_type="image/png")
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
+@app.get("/colorize")
+def Colorize():
+    response = Models.colorizeModel()
+    return response
