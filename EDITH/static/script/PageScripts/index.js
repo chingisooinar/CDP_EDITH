@@ -6,11 +6,15 @@ $("#generate_button").click(function(){
 	var imageData = $("#sketch_canvas").wPaint("image");
 	var fd = new FormData();
 	fd.append("image",imageData);
+	
 	$.ajax({
+		type: "POST",
 		url: '/api/sketch_api/',
 		data: fd,
-		type: "POST",
+		processData: false,
+		contentType: false,
 		success: function(result){
+			console.log(result);
 			$("#sketch_canvas").wPaint("image","data:image/png;base64,"+result);
 		}
 	})
@@ -24,6 +28,8 @@ $("#colorize_button").click(function(){
 		url: '/api/colorize_api/',
 		data: fd,
 		type: "POST",
+		processData: false,
+		contentType: false,
 		success: function(result){
 			$("#sketch_canvas").wPaint("image","data:image/png;base64,"+result);
 		}
@@ -42,6 +48,8 @@ $("#convert_sketch_button").click(function(){
 		url: '/api/convert_to_sketch_api/',
 		data: fd,
 		type: "POST",
+		processData: false,
+		contentType: false,
 		success: function(result){
 			$("#sketch_canvas").wPaint("image","data:image/png;base64,"+result);
 		}
@@ -56,6 +64,8 @@ $("#convert_bw_button").click(function(){
 		url: '/api/convert_to_bw_api/',
 		data: fd,
 		type: "POST",
+		processData: false,
+		contentType: false,
 		success: function(result){
 			$("#sketch_canvas").wPaint("image","data:image/png;base64,"+result);
 		}
