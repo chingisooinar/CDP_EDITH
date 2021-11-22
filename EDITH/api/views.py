@@ -12,10 +12,11 @@ def sketch(request):
     
     #img_im = cv2.imread(os.path.join(STATIC_ROOT,"image/test.png"))
     #image_data = base64.b64encode(cv2.imencode('.png',response)[1]).decode()
+    
     return HttpResponse(response,content_type="image/png")
 
 def colorize(request):
-    response = AiModels.colorizeModel()
+    response = AiModels.colorizeModel(request)
     return HttpResponse(response,content_type="image/png")
 
 def toSketch(request):
