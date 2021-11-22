@@ -8,9 +8,44 @@ body{
 }
 
 .public_btns{ 
-	
+	display: inline-block;
+	background-color: white;
+	padding: .75rem 1.25rem;
+	border-radius: 15rem;
+	font-size: 1rem;
+	text-align: center;
+	letter-spacing: .1rem;
+	position: relative;
 }
 
 .public_btns:hover{
-	
+	transform: translateY(-3px);
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
 }
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+  }
+
+.dropdown-content{
+	display: none;
+	background-color: white;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+}
+
+.dropdown-content a{
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	font-size: 1rem;
+	display: block;
+}
+
+.dropdown-content a:hover{
+	background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {display: block;}

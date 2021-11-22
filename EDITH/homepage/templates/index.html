@@ -23,16 +23,28 @@ EDITH
 
 <div class="line_bar">
 	<div class="tag_menu">
+		<div class="dropdown">
 		<button id="tag_1" class="public_btns" onclick="tags(1)">Tag#1</button>
-		<button id="tag_3" class="public_btns" onclick="tags(2)">Tag#2</button>
-		<button id="tag_4" class="public_btns" onclick="tags(3)">Tag#3</button>
-		<button id="tag_5" class="public_btns" onclick="tags(4)">Tag#4</button>
+		<div class="dropdown-content">
+			<a href="#">Option 1</a>
+			<a href="#">Option 2</a>
+			<a href="#">Option 3</a>
+		  </div>
+		  </div>
+		
 	</div>
 	<div style="display: inline-block;">
 		{% include 'sketch.html' %}
 	</div>
 	<div class="tag_menu">
-		
+		<div class="dropdown">
+			<button id="tag_2" class="public_btns" onclick="tags(2)">Tag#2</button>
+			<div class="dropdown-content">
+				<a href="#">Option 1</a>
+				<a href="#">Option 2</a>
+				<a href="#">Option 3</a>
+			  </div>
+			  </div>
 	</div>
 	
 </div>
