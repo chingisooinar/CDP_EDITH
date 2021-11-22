@@ -20,9 +20,9 @@ def colorize(request):
     return HttpResponse(response,content_type="image/png")
 
 def toSketch(request):
-    response = cv2.imread("api/anime.jpg")
+    response = AiModels.toSketchModel(request)
     return HttpResponse(response,content_type="image/png")
 
 def toBw(request):
-    response = cv2.imread("api/anime.jpg")
+    response = AiModels.toBwModel(request)
     return HttpResponse(response,content_type="image/png")
