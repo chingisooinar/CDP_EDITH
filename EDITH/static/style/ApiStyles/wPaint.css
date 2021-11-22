@@ -54,18 +54,18 @@
 /***********************************************************
  * Images
  ***********************************************************/
-._wPaint_handle{background-image: url('./images/menu_handle.png');}
-._wPaint_undo{background-image: url('./images/undo_inactive.png');}
-._wPaint_undo.uactive{background-image: url('./images/undo.png');}
-._wPaint_redo{background-image: url('./images/redo_inactive.png');}
-._wPaint_redo.uactive{background-image: url('./images/redo.png');}
-._wPaint_clear{background-image: url('./images/clear.png');}
-._wPaint_rectangle{background-image: url('./images/icon_rectangle.png');}
-._wPaint_ellipse{background-image: url('./images/icon_ellipse.png');}
-._wPaint_line{background-image: url('./images/icon_line.png');}
-._wPaint_pencil{background-image: url('./images/icon_pencil.png');}
-._wPaint_text{background-image: url('./images/icon_text.png');}
-._wPaint_eraser{background-image: url('./images/icon_eraser.png');}
-._wPaint_bold{background-image: url('./images/icon_bold.png');}
-._wPaint_italic{background-image: url('./images/icon_italic.png');}
-._wPaint_underline{background-image: url('./images/icon_underline.png');}
+._wPaint_handle{background-image: url('../../image/toolbar-icons/menu_handle.png');}
+._wPaint_undo{background-image: url('../../image/toolbar-icons/undo_inactive.png');}
+._wPaint_undo.uactive{background-image: url('../../image/toolbar-icons/undo.png');}
+._wPaint_redo{background-image: url('../../image/toolbar-icons/redo_inactive.png');}
+._wPaint_redo.uactive{background-image: url('../../image/toolbar-icons/redo.png');}
+._wPaint_clear{background-image: url('../../image/toolbar-icons/clear.png');}
+._wPaint_rectangle{background-image: url('../../image/toolbar-icons/icon_rectangle.png');}
+._wPaint_ellipse{background-image: url('../../image/toolbar-icons/icon_ellipse.png');}
+._wPaint_line{background-image: url('../../image/toolbar-icons/icon_line.png');}
+._wPaint_pencil{background-image: url('../../image/toolbar-icons/icon_pencil.png');}
+._wPaint_text{background-image: url('../../image/toolbar-icons/icon_text.png');}
+._wPaint_eraser{background-image: url('../../image/toolbar-icons/icon_eraser.png');}
+._wPaint_bold{background-image: url('../../image/toolbar-icons/icon_bold.png');}
+._wPaint_italic{background-image: url('../../image/toolbar-icons/icon_italic.png');}
+._wPaint_underline{background-image: url('../../image/toolbar-icons/icon_underline.png');}
