@@ -13,7 +13,17 @@ EDITH - History
 
 <!-- body part -->
 {% block body %}
-
+<div class="line_bar">
+	<button id="edit_button" class="public_btns" style="display: inline-block;">Editing</button>
+	<div class="screenTitle">
+		My History
+	</div>
+	{% for h in historyList %}
+	
+	{% empty %}
+	<div style="font-size: 20px;">No Data</div>
+	{% endfor %}
+</div>
 {% endblock %}
 
 <!-- script part -->

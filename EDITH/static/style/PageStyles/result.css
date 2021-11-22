@@ -1,0 +1,11 @@
+.line_bar{
+	width: 1000px;
+	text-align: center;
+	margin: 20px auto;
+	font-size: 0;
+}
+
+#reult_pic{
+	width: 600px;
+	height: 600px;
+}

@@ -13,7 +13,20 @@ EDITH - Result
 
 <!-- body part -->
 {% block body %}
-
+<div class="line_bar">
+	<button id="edit_button" class="public_btns" style="display: inline-block;">Editing</button>
+	<div class="screenTitle">
+		Final Product
+	</div>
+	<button id="history_button" class="public_btns" style="display: inline-block;">History</button>
+</div>
+<div class="line_bar">
+	<img id="reult_pic" src="{{ picUrl }}" />
+</div>
+<div class="line_bar" style="text-align: center;">
+	<button id="download_button" class="public_btns">Download</button>
+	<button id="saveas_button" class="public_btns">Save As</button>
+</div>
 {% endblock %}
 
 <!-- script part -->

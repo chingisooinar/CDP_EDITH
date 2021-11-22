@@ -14,3 +14,10 @@ body{
 .public_btns:hover{
 	
 }
+
+.screenTitle{
+	display: inline-block;
+	width: 50%;
+	font-size: 5px;
+	text-align: center;
+}
