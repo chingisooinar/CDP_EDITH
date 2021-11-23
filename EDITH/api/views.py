@@ -26,3 +26,7 @@ def toSketch(request):
 def toBw(request):
     response = AiModels.toBwModel(request)
     return HttpResponse(response,content_type="image/png")
+
+def edgeToBw(request):
+    response = AiModels.edgeToBwModel(request)
+    return HttpResponse(response,content_type="image/png")
