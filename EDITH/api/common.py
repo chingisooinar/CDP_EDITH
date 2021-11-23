@@ -100,7 +100,7 @@ def detect_edges(img):
     # first applies bilateral filter to remove noise but preserve edges
     img_gray = cv2.bilateralFilter(img_gray, 5, 50, 50)
     # next runs Canny edge detector to extract significant edges
-    img_gray_edges = cv2.Canny(img_gray, 65, 110)
+    img_gray_edges = cv2.Canny(img_gray, 50, 85)
     # invert black/white
     img_gray_edges = cv2.bitwise_not(img_gray_edges) 
     # convert to rgb
