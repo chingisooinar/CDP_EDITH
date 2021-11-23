@@ -72,6 +72,22 @@ $("#convert_bw_button").click(function(){
 	})
 })
 
+$("#convert_bw_from_sketch_button").click(function(){
+	var imageData = $("#sketch_canvas").wPaint("image");
+	var fd = new FormData();
+	fd.append("image",imageData);
+	$.ajax({
+		url: '/api/convert_edge_to_bw_api/',
+		data: fd,
+		type: "POST",
+		processData: false,
+		contentType: false,
+		success: function(result){
+			$("#sketch_canvas").wPaint("image","data:image/png;base64,"+result);
+		}
+	})
+})
+
 function tags(id){
 	
 }
