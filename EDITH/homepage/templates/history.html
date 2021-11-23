@@ -8,7 +8,7 @@ EDITH - History
 
 <!-- style part -->
 {% block style %}
-<link rel="stylesheet" type="text/css" href="{% static 'style/PageStyles/history.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'style/PageStyles/history.css' %}" />
 {% endblock %}
 
 <!-- body part -->
@@ -18,10 +18,17 @@ EDITH - History
 	<div class="screenTitle">
 		My History
 	</div>
+	<button class="invis" style=" background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+	color:transparent;">Editing</button>
 	{% for h in historyList %}
-	
+
 	{% empty %}
-	<div style="font-size: 20px;">No Data</div>
+	<div style="font-size: 20px;">Empty!</div>
 	{% endfor %}
 </div>
 {% endblock %}

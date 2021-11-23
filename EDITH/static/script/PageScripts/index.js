@@ -37,7 +37,7 @@ $("#colorize_button").click(function(){
 })
 
 $("#complete_button").click(function(){
-	
+	$(location).attr("href",'/result/');
 })
 
 $("#convert_sketch_button").click(function(){
