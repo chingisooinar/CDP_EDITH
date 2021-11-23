@@ -88,6 +88,14 @@ $("#convert_bw_from_sketch_button").click(function(){
 	})
 })
 
+
+
 function tags(id){
 	
+}
+
+var slider = document.getElementById("slider");
+slider.onchange = function(event){
+	var output = document.getElementById("output");
+	output.innerHTML = slider.value;
 }
