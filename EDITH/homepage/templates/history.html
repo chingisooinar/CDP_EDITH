@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- title part -->
+{% block title %}
+EDITH - History
+{% endblock %}
+
+<!-- style part -->
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'style/PageStyles/history.css' %}"/>
+{% endblock %}
+
+<!-- body part -->
+{% block body %}
+<div class="line_bar">
+	<button id="edit_button" class="public_btns" style="display: inline-block;">Editing</button>
+	<div class="screenTitle">
+		My History
+	</div>
+	{% for h in historyList %}
+	
+	{% empty %}
+	<div style="font-size: 20px;">No Data</div>
+	{% endfor %}
+</div>
+{% endblock %}
+
+<!-- script part -->
+{% block script %}
+<script src="{% static 'script/PageScripts/history.js' %}" type="text/javascript" charset="utf-8"></script>
+{% endblock %}

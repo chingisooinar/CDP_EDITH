@@ -1,54 +1,77 @@
 $("#history_button").click(function(){
-	
+	$(location).attr("href","/history/");
 })
 
 $("#generate_button").click(function(){
+	var imageData = $("#sketch_canvas").wPaint("image");
+	var fd = new FormData();
+	fd.append("image",imageData);
+	
 	$.ajax({
 		type: "POST",
-		url: "/api/sketch_api/",
-		data: "",
+		url: '/api/sketch_api/',
+		data: fd,
+		processData: false,
+		contentType: false,
 		success: function(result){
 			console.log(result);
-			$("#sketch_canvas").wPaint("image", "data:image/png;base64,"+result);
+			$("#sketch_canvas").wPaint("image","data:image/png;base64,"+result);
 		}
 	})
 })
 
 $("#colorize_button").click(function(){
-	
+	var imageData = $("#sketch_canvas").wPaint("image");
+	var fd = new FormData();
+	fd.append("image",imageData);
+	$.ajax({
+		url: '/api/colorize_api/',
+		data: fd,
+		type: "POST",
+		processData: false,
+		contentType: false,
+		success: function(result){
+			$("#sketch_canvas").wPaint("image","data:image/png;base64,"+result);
+		}
+	})
 })
 
 $("#complete_button").click(function(){
 	
 })
 
+$("#convert_sketch_button").click(function(){
+	var imageData = $("#sketch_canvas").wPaint("image");
+	var fd = new FormData();
+	fd.append("image",imageData);
+	$.ajax({
+		url: '/api/convert_to_sketch_api/',
+		data: fd,
+		type: "POST",
+		processData: false,
+		contentType: false,
+		success: function(result){
+			$("#sketch_canvas").wPaint("image","data:image/png;base64,"+result);
+		}
+	})
+})
+
+$("#convert_bw_button").click(function(){
+	var imageData = $("#sketch_canvas").wPaint("image");
+	var fd = new FormData();
+	fd.append("image",imageData);
+	$.ajax({
+		url: '/api/convert_to_bw_api/',
+		data: fd,
+		type: "POST",
+		processData: false,
+		contentType: false,
+		success: function(result){
+			$("#sketch_canvas").wPaint("image","data:image/png;base64,"+result);
+		}
+	})
+})
+
 function tags(id){
-	console.log(id);
-}
-
-function showEidingState(){
-	$("#stateTitle").html("");
-	$("#editing_button").hide();
-	$("#generate_button").show();
-	$("#colorize_button").show();
-	$("#complete_button").show();
-	$("#download_button").hide();
-	$("#save_button").hide();
-	$(".tag_menu").show();
-}
-
-function showFinishState(){
-	$("#stateTitle").html("Final Product");
-	$("#editing_button").css("display","inline-block");
-	$("#generate_button").hide();
-	$("#colorize_button").hide();
-	$("#complete_button").hide();
-	$("#download_button").show();
-	$("#save_button").show();
-	$(".tag_menu").hide();
-}
-
-function showHistory(){
-	$("#stateTitle").html("My History");
-	$("#history_button").css("display","inline-block");
+	
 }

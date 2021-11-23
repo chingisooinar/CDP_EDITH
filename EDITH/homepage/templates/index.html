@@ -13,11 +13,7 @@ EDITH
 
 <!-- body part -->
 {% block body %}
-<div id="topBar" class="line_bar">
-	<button id="editing_button" class="public_btns" style="display: none;">Editing</button>
-	<div class="line_bar" style="width: 50%;display: inline-block;">
-		<title id="stateTitle"></title>
-	</div>
+<div id="topBar" class="line_bar" style="text-align: right;">
 	<button id="history_button" class="public_btns" style="display: inline-block;">History</button>
 </div>
 
@@ -48,14 +44,14 @@ EDITH
 	</div>
 	
 </div>
-<div class="line_bar" style="text-align: center;" id="operateBar">
+<div class="line_bar" style="text-align: center;">
 	<button id="generate_button" class="public_btns">Generate Image</button>
+	
 	<button id="colorize_button" class="public_btns">Colorize Image</button>
 	<button id="complete_button" class="public_btns">Complete</button>
-</div>
-	<button id="download_button" class="public_btns" style="display: none;">Download</button>
-</div>
-	<button id="save_button" class="public_btns" style="display: none;">Save as</button>
+	<br>
+	<button id="convert_sketch_button" class="public_btns">Convert to Sketch</button>
+	<button id="convert_bw_button" class="public_btns">Convert to BW</button>
 </div>
 {% endblock %}
 

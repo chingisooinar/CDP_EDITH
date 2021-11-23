@@ -1,12 +1,13 @@
 .line_bar{
-	width: 100%;
+	width: 1000px;
 	text-align: center;
 	margin: 0 auto;
+	font-size: 0;
 }
 
 .tag_menu{
 	width: 200px;
-	height: 600px;
+	height: 256px;
 	display: inline-block;
 	vertical-align: top;
 	text-align: center;

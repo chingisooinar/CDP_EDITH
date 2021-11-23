@@ -20,13 +20,13 @@ body{
 
 .public_btns:hover{
 	transform: translateY(-3px);
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .dropdown {
 	position: relative;
 	display: inline-block;
-  }
+}
 
 .dropdown-content{
 	display: none;
@@ -49,3 +49,10 @@ body{
 }
 
 .dropdown:hover .dropdown-content {display: block;}
+
+.screenTitle{
+	display: inline-block;
+	width: 50%;
+	font-size: 5px;
+	text-align: center;
+}
