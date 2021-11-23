@@ -159,8 +159,8 @@ def toSketchModel(request):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image = cv2.resize(image, (256, 256), interpolation = cv2.INTER_AREA)
     
-    edges = detect_edges(image)
-    bw_edges = sketchProcessing(edges, 45)
+    bw_edges = detect_edges(image)
+    #bw_edges = sketchProcessing(edges, 45)
     bw_edges_image = Image.fromarray(bw_edges)
     buffered = BytesIO()
     bw_edges_image.save(buffered, format="png")
