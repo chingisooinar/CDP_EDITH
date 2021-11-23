@@ -4,9 +4,7 @@ import time,os
 
 # Create your views here.
 def index(request):
-	if "id" in request.session.keys():
-		return request.session["id"]
-	else:
+	if "id" not in request.session.keys():
 		id = int(round(time.time()*1000000))
 		request.session["id"] = id
 		if os.path.exists(MEDIA_ROOT+"/user/{}".format(id)) == False:
