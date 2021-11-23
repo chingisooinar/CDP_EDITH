@@ -53,6 +53,8 @@ body{
 .screenTitle{
 	display: inline-block;
 	width: 50%;
-	font-size: 5px;
+	font-size: 3rem;
 	text-align: center;
+	font-family: arial;
+	text-shadow: 2px 2px 2px white;
 }
