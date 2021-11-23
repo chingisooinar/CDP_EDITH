@@ -1,8 +1,17 @@
 from django.shortcuts import render
+from EDITH.settings import MEDIA_ROOT
+import time,os
 
 # Create your views here.
 def index(request):
-    return render(request,'index.html',locals())
+	if "id" in request.session.keys():
+		return request.session["id"]
+	else:
+		id = int(round(time.time()*1000000))
+		request.session["id"] = id
+		if os.path.exists(MEDIA_ROOT+"/user/{}".format(id)) == False:
+			os.makedirs(MEDIA_ROOT+"/user/{}".format(id))
+	return render(request,'index.html',locals())
 	
 def result(request):
 	picUrl = "" # The result url
