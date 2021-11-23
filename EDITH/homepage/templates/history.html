@@ -29,4 +29,10 @@ EDITH - History
 <!-- script part -->
 {% block script %}
 <script src="{% static 'script/PageScripts/history.js' %}" type="text/javascript" charset="utf-8"></script>
+{% if request.session.id %}
+{% else %}
+<script type="text/javascript">
+	$(location).attr('href', '/');
+</script>
+{% endif %}
 {% endblock %}
