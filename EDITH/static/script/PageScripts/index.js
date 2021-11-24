@@ -74,8 +74,9 @@ $("#convert_bw_button").click(function(){
 
 $("#convert_bw_from_sketch_button").click(function(){
 	var imageData = $("#sketch_canvas").wPaint("image");
+	var slider = document.getElementById("slider").value;
 	var fd = new FormData();
-	fd.append("image",imageData);
+	fd.append("image",imageData, slider);
 	$.ajax({
 		url: '/api/convert_edge_to_bw_api/',
 		data: fd,
