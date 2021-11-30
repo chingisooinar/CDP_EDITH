@@ -83,4 +83,11 @@ EDITH
 <!-- script part -->
 {% block script %}
 <script src="{% static 'script/PageScripts/index.js' %}" type="text/javascript" charset="utf-8"></script>
+{% if request.method == "POST" %}
+<script type="text/javascript">
+	$(window).ready(function(){
+		$("#sketch_canvas").wPaint("image","data:image/png;base64,"+pic);
+	})
+</script>
+{% endif %}
 {% endblock %}
