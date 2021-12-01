@@ -1,6 +1,6 @@
 from django.http import HttpResponse
-from EDITH.settings import STATIC_ROOT
-import os,cv2,base64
+from EDITH.settings import STATIC_ROOT, MEDIA_ROOT
+import os,cv2,base64,time
 from api import AiModels
 
 # Create your views here.
@@ -24,9 +24,11 @@ def edgeToBw(request):
     response = AiModels.edgeToBwModel(request)
     return HttpResponse(response,content_type="image/png")
 
-
-
-
-#source_file = request.FILES["source"]
-#img_im = cv2.imread(os.path.join(STATIC_ROOT,"image/test.png"))
-#image_data = base64.b64encode(cv2.imencode('.png',response)[1]).decode()
+def complete(request):
+    id = request.session["id"]
+    filename = int(round(time.time()*1000000))
+    image_data = base64.b64decode(request.POST["image"])
+    f = open("{}/user/{}/{}.png".format(MEDIA_ROOT,id,filename),"wb")
+    f.write(image_data)
+    f.close()
+    return HttpResponse(filename)
