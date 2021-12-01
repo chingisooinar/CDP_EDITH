@@ -4,15 +4,8 @@ import os,cv2,base64
 from api import AiModels
 
 # Create your views here.
-def sketch(request):
-    #source_file = request.FILES["source"]
-    
-    response = AiModels.generateSketch('api/anime.jpg')
-    
-    
-    #img_im = cv2.imread(os.path.join(STATIC_ROOT,"image/test.png"))
-    #image_data = base64.b64encode(cv2.imencode('.png',response)[1]).decode()
-    
+def inpainting(request):
+    response = AiModels.inpainting('api/sample_whiteline.jpg')
     return HttpResponse(response,content_type="image/png")
 
 def colorize(request):
@@ -30,3 +23,9 @@ def toBw(request):
 def edgeToBw(request):
     response = AiModels.edgeToBwModel(request)
     return HttpResponse(response,content_type="image/png")
+
+
+
+#source_file = request.FILES["source"]
+#img_im = cv2.imread(os.path.join(STATIC_ROOT,"image/test.png"))
+#image_data = base64.b64encode(cv2.imencode('.png',response)[1]).decode()

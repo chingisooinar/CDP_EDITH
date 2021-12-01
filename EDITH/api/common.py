@@ -148,6 +148,80 @@ def _get_color_point_bbox_coords(center_y, center_x):
     x1 = min(256, center_x+radius)
     return y0, y1, x0, x1
 
+def inpaintingProcessing(image):
+    # DEFINE TRANFORMATIONS FOR PREPROCESSING 
+    _transforms = transforms.Compose(
+        [
+            transforms.Resize((256, 256)),
+            transforms.ToTensor(),
+            transforms.Normalize(
+                [0.5 for _ in range(3)], [0.5 for _ in range(3)]),
+        ]
+    )
+    """
+    input: 
+        bw: bw image with color marks!
+    output:
+        colored RGB image
+    """
+    image = np.uint8(image)
+    r, g, b = image.transpose(2, 0, 1)
+    is_gray = (r == g).all() and (r == b).all() and (g == b).all()
+    # convert image to PIL image to apply pytorch augmentations
+    image = Image.fromarray().convert('RGB')
+    # apply augmentations for pre processing
+    inp = _transforms(image)
+    # cuda
+    inp = inp.cuda()
+    # feed into a model
+    out = inpaint_model(inp.reshape(1, 3, 256, 256))
+    # get numpy array (image)
+    np_image = out.detach().cpu().numpy()[0].transpose(1, 2, 0)
+    # post process
+    img =  (np_image * 127.5 + 127.5).astype('uint8')
+    # remove nois( salt&pepper noise)
+    dst = cv2.bilateralFilter(img, 15, 75, 75) 
+    if is_gray:
+        dst = cv2.cvtColor(dst, cv2.COLOR_RGB2GRAY)
+        dst = cv2.cvtColor(dst, cv2.COLOR_GRAY2RGB)
+    return dst#, img
+
+def colorizeProcessing(bw):
+    
+    _transforms = transforms.Compose(
+        [
+            transforms.Resize(256),
+            transforms.ToTensor(),
+            transforms.Normalize(
+                [0.5 for _ in range(3)], [0.5 for _ in range(3)]),
+        ]
+    )
+    color_model = GeneratorUNet().cuda()
+    cp = torch.load('api/color.tar')
+    color_model.load_state_dict(cp['G'])
+    """
+    input: 
+        bw: bw image with color marks!
+    output:
+        colored RGB image
+    """
+    # convert image to PIL image to apply pytorch augmentations
+    image = Image.fromarray(np.uint8(bw)).convert('RGB')
+    # apply augmentations for pre processing
+    inp = _transforms(image)
+    # cuda
+    inp = inp.cuda()
+    # feed into a model
+    with torch.no_grad():
+        out = color_model(inp.reshape(1, 3, 256, 256))
+    # get numpy array (image)
+    np_image = out.detach().cpu().numpy()[0].transpose(1, 2, 0)
+    # post process
+    img =  (np_image * 127.5 + 127.5).astype('uint8')
+    # remove nois( salt&pepper noise)
+    dst = cv2.fastNlMeansDenoisingColored(img,None,8,8,7,21)
+    return dst #, img
+
 def mark(img_gray, image):
     """
     input:
