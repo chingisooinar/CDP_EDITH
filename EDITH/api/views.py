@@ -26,6 +26,7 @@ def edgeToBw(request):
 
 
 
+
 #source_file = request.FILES["source"]
 #img_im = cv2.imread(os.path.join(STATIC_ROOT,"image/test.png"))
 #image_data = base64.b64encode(cv2.imencode('.png',response)[1]).decode()
