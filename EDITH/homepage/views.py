@@ -14,13 +14,15 @@ def index(request):
 		os.makedirs("{}/user/{}".format(MEDIA_ROOT,id))
 	pic = ""
 	if request.method == "POST":
-		picFilename = request.POST["image"]
-		img = cv2.imread(picFilename)
+		picUrl = "{}/user/{}/{}.png".format(MEDIA_ROOT,request.session["id"],picUrl)
+		img = cv2.imread(picUrl)
 		pic = base64.b64encode(cv2.imencode('png', img)[1]).decode()
 	return render(request,'index.html',locals())
 	
 def result(request):
-	picUrl = "" # The result url
+	picUrl = request.POST["filename"]
+	if "id" in request.session.keys():
+		picUrl = "{}/user/{}/{}.png".format(MEDIA_ROOT,request.session["id"],picUrl)
 	return render(request,'result.html',locals())
 	
 def history(request):

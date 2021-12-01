@@ -53,7 +53,26 @@ $("#colorize_button").click(function(){
 })
 
 $("#complete_button").click(function(){
-	$(location).attr("href",'/result/');
+	var imageData = $("#sketch_canvas").wPaint("image");
+	var fd = new FormData();
+	fd.append("image",imageData);
+	$.ajax({
+		url: '/api/complete/',
+		data: fd,
+		type: "POST",
+		processData: false,
+		contentType: false,
+		success: function(result){
+			var form = $("<form method='post'></form>");
+			form.attr({"action":'/result/'});
+			var input = $("<input type='hidden'>");
+			input.attr({"name":"filename"});
+			input.val(result);
+			form.append(input);
+			form.submit();
+		}
+	})
+	
 })
 
 $("#convert_sketch_button").click(function(){
