@@ -25,11 +25,20 @@ EDITH - History
     overflow: hidden;
     outline:none;
 	color:transparent;">Editing</button>
+	<div class="line_bar" style="text-align: left;">
 	{% for h in historyList %}
-	{{ h }}
+	<div class="thumbnail" style="background-color: #FFFFFF;" >
+		<img src="/media/user/{{ h }}" onmouseenter="showMenu('{{ forloop.counter }}')">
+		<div id="{{ forloop.counter }}" class="thumbnailMenu" onmouseleave="hideMenu('{{ forloop.counter }}')">
+			<button class="menuButton" onclick="edit('{{ h }}')">Edit</button>
+			<button class="menuButton" onclick="download('{{ h }}')">Download</button>
+			<button class="menuButton" onclick="del('{{ h }}')">Delete</button>
+		</div>
+	</div>
 	{% empty %}
 	<div style="font-size: 20px;">Empty!</div>
-	{% endfor %}
+	{% endfor %}	
+	</div>
 </div>
 {% endblock %}
 

@@ -9,5 +9,6 @@ urlpatterns = [
     path("convert_to_sketch_api/",views.toSketch,name="toSketch"),
     path("convert_to_bw_api/",views.toBw,name="toBw"),
     path("convert_edge_to_bw_api/",views.edgeToBw,name="edgeToBw"),
-    path("complete/",views.complete,name="complete")
+    path("complete/",views.complete,name="complete"),
+    path("deleteHistory/",views.deleteHistory,name="deleteHistory")
 ]
