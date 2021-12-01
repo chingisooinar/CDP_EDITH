@@ -32,3 +32,10 @@ def complete(request):
     f.write(image_data)
     f.close()
     return HttpResponse(filename)
+
+def deleteHistory(request):
+	try:
+		os.remove("{}/user/{}".format(MEDIA_ROOT,request.POST["filename"]))
+		return HttpResponse(1)
+	except:
+		return HttpResponse(0)
