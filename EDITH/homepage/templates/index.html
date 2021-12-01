@@ -18,64 +18,41 @@ EDITH
 </div>
 
 <div class="line_bar">
-	<div class="tag_menu">
-		<div class="dropdown">
-			<button id="tag_1" class="public_btns" onclick="tags(1)">Tag#1</button>
-			<div class="dropdown-content">
-				<a href="#">Option 1</a>
-				<a href="#">Option 2</a>
-				<a href="#">Option 3</a>
-			</div>
-		</div>
+	<div class="tag_menu" style = "margin-right: 100px;">
+		<button id="inpainting_button" class="public_btns">Inpainting Image</button>
+		<br>
+		<button id="colorize_button" class="public_btns" style = "margin-top: 10px;">Colorize Image</button>
 
 	</div>
 	<div style="display: inline-block;">
 		{% include 'sketch.html' %}
 	</div>
-	<div class="tag_menu">
-		<div class="dropdown">
-			<button id="tag_2" class="public_btns" onclick="tags(2)">Tag#2</button>
-			<div class="dropdown-content">
-				<a href="#">Option 1</a>
-				<a href="#">Option 2</a>
-				<a href="#">Option 3</a>
-			</div>
-		</div>
+	<div class="tag_menu" style = "margin-left: 100px;">
+		<button id="convert_sketch_button" class="public_btns">Convert to Sketch</button>
+		<br>
+		<button id="convert_bw_button" class="public_btns" style = "margin-top: 10px;">Convert to BW from Color</button>
+		<br>
+		<button id="convert_bw_from_sketch_button" class="public_btns" style = "margin-top: 10px;">Convert to BW from Sketch</button>
+		<br>
+		<input type="range" class="slider" id="slider" name="slider" min="0" max="50" step='1' list='tickmarks'>
+		<datalist id="tickmarks">
+			<option value="0" label='0'></option>
+			<option value="5"></option>
+			<option value="10"></option>
+			<option value="15"></option>
+			<option value="20"></option>
+			<option value="25"></option>
+			<option value="30"></option>
+			<option value="35"></option>
+			<option value="40"></option>
+			<option value="45"></option>
+			<option value="50" label='50'></option>
+		</datalist>
+		<div id="output" style="font-size: 20px;">25</div>
 	</div>
 
 </div>
 <div class="line_bar" style="text-align: center;">
-	<button id="inpainting_button" class="public_btns">Inpainting Image</button>
-	<br>
-	<button id="generate_button" class="public_btns">Generate Image</button>
-	<br>
-	<button id="colorize_button" class="public_btns">Colorize Image</button>
-
-	<br>
-	<button id="convert_sketch_button" class="public_btns">Convert to Sketch</button>
-	<br>
-	<button id="convert_bw_button" class="public_btns">Convert to BW from Color</button>
-	<br>
-	<button id="convert_bw_from_sketch_button" class="public_btns">Convert to BW from Sketch</button>
-	<br>
-
-	<input type="range" class = "slider" id="slider" name="slider" min="0" max="50" step='1' list='tickmarks'>
-	<datalist id="tickmarks">
-		<option value="0" label='0'></option>
-		<option value="5"></option>
-		<option value="10"></option>
-		<option value="15"></option>
-		<option value="20"></option>
-		<option value="25"></option>
-		<option value="30"></option>
-		<option value="35"></option>
-		<option value="40"></option>
-		<option value="45"></option>
-		<option value="50" label='50'></option>
-	</datalist>
-	<div id = "output" style="font-size: 20px;">25</div>
-	
-	<br>
 	<button id="complete_button" class="public_btns">Complete</button>
 </div>
 {% endblock %}
@@ -85,8 +62,8 @@ EDITH
 <script src="{% static 'script/PageScripts/index.js' %}" type="text/javascript" charset="utf-8"></script>
 {% if request.method == "POST" %}
 <script type="text/javascript">
-	$(window).ready(function(){
-		$("#sketch_canvas").wPaint("image","data:image/png;base64,"+pic);
+	$(window).ready(function () {
+		$("#sketch_canvas").wPaint("image", "data:image/png;base64," + pic);
 	})
 </script>
 {% endif %}
