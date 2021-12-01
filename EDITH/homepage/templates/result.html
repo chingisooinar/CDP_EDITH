@@ -21,7 +21,7 @@ EDITH - Result
 	<button id="history_button" class="public_btns" style="display: inline-block;">History</button>
 </div>
 <div class="line_bar">
-	<img id="reult_pic" src="{{ picUrl }}" />
+	<img id="reult_pic" src="/media/user/{{ picUrl }}" />
 </div>
 <div class="line_bar" style="text-align: center;">
 	<button id="download_button" class="public_btns">Download</button>
@@ -33,6 +33,9 @@ EDITH - Result
 {% block script %}
 <script src="{% static 'script/PageScripts/result.js' %}" type="text/javascript" charset="utf-8"></script>
 {% if request.session.id %}
+<script type="text/javascript">
+	$.FILENAME = "{{ picUrl }}"
+</script>
 {% else %}
 <script type="text/javascript">
 	$(location).attr('href', '/');

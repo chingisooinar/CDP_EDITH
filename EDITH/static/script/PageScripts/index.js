@@ -69,6 +69,7 @@ $("#complete_button").click(function(){
 			input.attr({"name":"filename"});
 			input.val(result);
 			form.append(input);
+			$(document.body).append(form);
 			form.submit();
 		}
 	})

@@ -27,7 +27,7 @@ def edgeToBw(request):
 def complete(request):
     id = request.session["id"]
     filename = int(round(time.time()*1000000))
-    image_data = base64.b64decode(request.POST["image"])
+    image_data = base64.b64decode(request.POST["image"][22:])
     f = open("{}/user/{}/{}.png".format(MEDIA_ROOT,id,filename),"wb")
     f.write(image_data)
     f.close()
