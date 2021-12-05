@@ -143,6 +143,7 @@ $("#load_image").change(function(){
 		contentType: false,
 		success: function(result){
 			$("#sketch_canvas").wPaint("image","data:image/png;base64,"+result);
+			$("#load_image").remove();
 		}
 	})
 })
