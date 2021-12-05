@@ -87,6 +87,55 @@ class UNetDown(nn.Module):
     def forward(self, x):
         return self.model(x)
     
+def sketchProcessing(edges, edges_weight=0):
+    """
+    input:
+        edges: edge map
+        edges_weight: model generates bw image out of an edge map. It might blur some edges. \
+                        if user wants to emphasize edges, making them stronger, then this optional
+                        weight parameter can be passed
+    output:
+        generated image
+    
+    """
+    _transforms = transforms.Compose(
+        [
+            transforms.Resize(256),
+            transforms.ToTensor(),
+            transforms.Normalize(
+                [0.5 for _ in range(3)], [0.5 for _ in range(3)]),
+        ]
+    )
+    
+    sketch_model = GeneratorUNet().cuda()
+    cp = torch.load('api/sketch.tar')
+    sketch_model.load_state_dict(cp['G'])
+    
+    # convert image to PIL image to apply pytorch augmentations
+    image = Image.fromarray(np.uint8(edges)).convert('RGB')
+    # apply augmentations for preprocessing
+    inp = _transforms(image)
+    # use cuda
+    inp = inp.cuda()
+    # feed into a model
+    out = sketch_model(inp.reshape(1, 3, 256, 256))
+    # get a numpy array(image)
+    generated_image = out.detach().cpu().numpy()[0].transpose(1, 2, 0)
+    # post processing
+    generated_image = (generated_image * 127.5 + 127.5).astype('uint8')
+    # remove noise
+    denoised = cv2.bilateralFilter(generated_image, 15, 75, 75) # preserves edges 
+    denoised = cv2.cvtColor(denoised, cv2.COLOR_RGB2GRAY)
+    denoised = cv2.cvtColor(denoised, cv2.COLOR_GRAY2RGB)
+    # make edges stronger
+    if edges_weight > 0:
+        edges_contour = (edges / 255.0) - 1
+        edges_contour[edges_contour == -1] = 1
+        denoised = denoised - edges_weight * edges_contour
+        denoised[denoised < 0] = 0
+
+    return denoised.astype('uint8')
+
 def detect_edges(img):
     """
     input:
@@ -149,6 +198,11 @@ def _get_color_point_bbox_coords(center_y, center_x):
     return y0, y1, x0, x1
 
 def inpaintingProcessing(image):
+    CHECKPOINT= "api/inpaint.tar"
+    cp = torch.load(CHECKPOINT)
+    inpaint_model = GeneratorUNet().cuda()
+    inpaint_model.load_state_dict(cp)
+    
     # DEFINE TRANFORMATIONS FOR PREPROCESSING 
     _transforms = transforms.Compose(
         [
@@ -158,17 +212,12 @@ def inpaintingProcessing(image):
                 [0.5 for _ in range(3)], [0.5 for _ in range(3)]),
         ]
     )
-    """
-    input: 
-        bw: bw image with color marks!
-    output:
-        colored RGB image
-    """
+    
     image = np.uint8(image)
     r, g, b = image.transpose(2, 0, 1)
     is_gray = (r == g).all() and (r == b).all() and (g == b).all()
     # convert image to PIL image to apply pytorch augmentations
-    image = Image.fromarray().convert('RGB')
+    image = Image.fromarray(image).convert('RGB')
     # apply augmentations for pre processing
     inp = _transforms(image)
     # cuda

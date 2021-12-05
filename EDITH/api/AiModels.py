@@ -10,14 +10,18 @@ from api.common import *
 from io import BytesIO
 import base64
 
-def inpainting(request):
+def inpaintingModel(request):
     canvas_string = request.POST.get('image')
     canvas_string = canvas_string.partition(",")[2]
     im_bytes = base64.b64decode(canvas_string)   # im_bytes is a binary image
-    im_file = BytesIO(im_bytes)  # convert image to file-like object
-    canvas_image = Image.open(im_file)
+    im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
+    
+    image = cv2.imdecode(im_arr, cv2.IMREAD_COLOR)
+    canvas_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     
     result = inpaintingProcessing(canvas_image)
+    result = Image.fromarray(result)
+    
     buffered = BytesIO()
     result.save(buffered, format="png")
     img_str = base64.b64encode(buffered.getvalue())
@@ -82,7 +86,8 @@ def edgeToBwModel(request):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     edges = cv2.resize(image, (256, 256), interpolation = cv2.INTER_AREA)
     
-    bw_edges = sketchProcessing(edges, 45)
+    edge_weight = int(request.POST.get('slider'))
+    bw_edges = sketchProcessing(edges, edge_weight)
     bw_edges_image = Image.fromarray(bw_edges)
     buffered = BytesIO()
     bw_edges_image.save(buffered, format="png")

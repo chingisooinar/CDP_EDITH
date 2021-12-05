@@ -5,7 +5,7 @@ from api import AiModels
 
 # Create your views here.
 def inpainting(request):
-    response = AiModels.inpainting('api/sample_whiteline.jpg')
+    response = AiModels.inpaintingModel(request)
     return HttpResponse(response,content_type="image/png")
 
 def colorize(request):
