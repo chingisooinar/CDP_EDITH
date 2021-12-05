@@ -127,15 +127,24 @@ $("#convert_bw_from_sketch_button").click(function(){
 })
 
 $("#load_self_img_button").click(function(){
+	$(document.body).append("<input type='file' id='load_image' style='display: none;' accept='image/*'/>")
 	$("#load_image").click();
 })
 
 $("#load_image").change(function(){
-	var reader = new FileReader();
-	reader.onload = function(e){
-		$("#sketch_canvas").wPaint("image",reader.result);
-	}
-	reader.readAsDataURL(this.files[0])
+	var img = document.getElementById("#load_image").files[0];
+	var fd = new FormData();
+	fd.append("image",img);
+	$.ajax({
+		url: 'api/upload_resize_api/',
+		data: fd,
+		type: "POST",
+		processData: false,
+		contentType: false,
+		success: function(result){
+			$("#sketch_canvas").wPaint("image","data:image/png;base64,"+result);
+		}
+	})
 })
 
 $("#slider").change(function(){
