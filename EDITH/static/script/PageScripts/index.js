@@ -127,12 +127,12 @@ $("#convert_bw_from_sketch_button").click(function(){
 })
 
 $("#load_self_img_button").click(function(){
-	$(document.body).append("<input type='file' id='load_image' style='display: none;' accept='image/*'/>")
 	$("#load_image").click();
 })
 
 $("#load_image").change(function(){
-	var img = document.getElementById("#load_image").files[0];
+	var img = document.getElementById("load_image").files[0];
+	console.log(1);
 	var fd = new FormData();
 	fd.append("image",img);
 	$.ajax({
@@ -143,7 +143,6 @@ $("#load_image").change(function(){
 		contentType: false,
 		success: function(result){
 			$("#sketch_canvas").wPaint("image","data:image/png;base64,"+result);
-			$("#load_image").remove();
 		}
 	})
 })
