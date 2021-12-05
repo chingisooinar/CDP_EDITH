@@ -18,7 +18,3 @@ $("#download_button").click(function(){
 	$(document.body).append(download);
 	download[0].click();
 })
-
-$("#saveas_button").click(function(){
-	
-})
