@@ -126,11 +126,17 @@ $("#convert_bw_from_sketch_button").click(function(){
 	})
 })
 
+$("#load_self_img_button").click(function(){
+	$("#load_image").click();
+})
 
-
-function tags(id){
-	
-}
+$("#load_image").change(function(){
+	var reader = new FileReader();
+	reader.onload = function(e){
+		$("#sketch_canvas").wPaint("image",reader.result);
+	}
+	reader.readAsDataURL(this.files[0])
+})
 
 $("#slider").change(function(){
 	$("#output").html($("#slider").val());
