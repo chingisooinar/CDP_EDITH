@@ -25,9 +25,9 @@ def edgeToBw(request):
     return HttpResponse(response,content_type="image/png")
 
 def uploadResize(request):
-    print(request.POST.get('image'))
-    response = request.POST.get('image')
-    return HttpResponse(response,content_type="image/png")
+    toCanvas = request.POST.get('image')
+    print(toCanvas)
+    return HttpResponse(1)
 
 def complete(request):
     id = request.session["id"]
