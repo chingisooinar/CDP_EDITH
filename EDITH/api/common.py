@@ -271,6 +271,7 @@ def colorizeProcessing(bw):
     dst = cv2.fastNlMeansDenoisingColored(img,None,8,8,7,21)
     return dst #, img
 
+
 def mark(img_gray, image):
     """
     input:

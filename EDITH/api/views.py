@@ -24,6 +24,11 @@ def edgeToBw(request):
     response = AiModels.edgeToBwModel(request)
     return HttpResponse(response,content_type="image/png")
 
+def uploadResize(request):
+    print(request.POST.get('image'))
+    response = request.POST.get('image')
+    return HttpResponse(response,content_type="image/png")
+
 def complete(request):
     id = request.session["id"]
     filename = int(round(time.time()*1000000))
