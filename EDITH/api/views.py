@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from EDITH.settings import STATIC_ROOT, MEDIA_ROOT
 import os,cv2,base64,time
 from api import AiModels
-
+from io import BytesIO
 # Create your views here.
 def inpainting(request):
     response = AiModels.inpaintingModel(request)
@@ -25,9 +25,8 @@ def edgeToBw(request):
     return HttpResponse(response,content_type="image/png")
 
 def uploadResize(request):
-    toCanvas = request.POST.get('image')
-    print(toCanvas)
-    return HttpResponse(1)
+    response = AiModels.UploadResize(request)
+    return HttpResponse(response,content_type="image/png")
 
 def complete(request):
     id = request.session["id"]

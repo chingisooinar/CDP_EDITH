@@ -10,6 +10,19 @@ from api.common import *
 from io import BytesIO
 import base64
 
+def UploadResize(request):
+    toCanvas = request.FILES.get('image')
+    img_array = cv2.imdecode(np.fromstring(toCanvas.read(), np.uint8), cv2.IMREAD_UNCHANGED)
+    img_array = cv2.cvtColor(img_array, cv2.COLOR_BGR2RGB)
+    img_array = cv2.resize(img_array, (256, 256), interpolation = cv2.INTER_AREA)
+
+    img = Image.fromarray(img_array)
+    buffered = BytesIO()
+    img.save(buffered, format="png")
+    img_str = base64.b64encode(buffered.getvalue())
+    
+    return img_str
+
 def inpaintingModel(request):
     canvas_string = request.POST.get('image')
     canvas_string = canvas_string.partition(",")[2]
