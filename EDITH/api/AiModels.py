@@ -24,15 +24,10 @@ def UploadResize(request):
     return img_str
 
 def inpaintingModel(request):
-    canvas_string = request.POST.get('image')
-    canvas_string = canvas_string.partition(",")[2]
-    im_bytes = base64.b64decode(canvas_string)   # im_bytes is a binary image
-    im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
+    image = loadImageWithBg(request)
+    image=cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
     
-    image = cv2.imdecode(im_arr, cv2.IMREAD_COLOR)
-    canvas_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    
-    result = inpaintingProcessing(canvas_image)
+    result = inpaintingProcessing(image)
     result = Image.fromarray(result)
     
     buffered = BytesIO()
@@ -42,14 +37,9 @@ def inpaintingModel(request):
     return img_str
     
 def colorizeModel(request):
-    canvas_string = request.POST.get('image')
-    canvas_string = canvas_string.partition(",")[2]
-    im_bytes = base64.b64decode(canvas_string)   # im_bytes is a binary image
-    im_file = BytesIO(im_bytes)  # convert image to file-like object
-    canvas_image = Image.open(im_file)
+    image = loadImageWithBg(request)
     
-    
-    color_edges = colorizeProcessing(canvas_image)
+    color_edges = colorizeProcessing(image)
     color_edges_image = Image.fromarray(color_edges)
     buffered = BytesIO()
     color_edges_image.save(buffered, format="png")
@@ -57,13 +47,9 @@ def colorizeModel(request):
     return img_str
 
 def toSketchModel(request):
-    canvas_string = request.POST.get('image')
-    canvas_string = canvas_string.partition(",")[2]
-    im_bytes = base64.b64decode(canvas_string)
-    im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
-    
-    image = cv2.imdecode(im_arr, flags=cv2.IMREAD_GRAYSCALE)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    image = loadImageWithBg(request)
+
+    image=cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
     image = cv2.resize(image, (256, 256), interpolation = cv2.INTER_AREA)
     
     bw_edges = detect_edges(image)
@@ -75,13 +61,8 @@ def toSketchModel(request):
     return img_str
 
 def toBwModel(request):
-    canvas_string = request.POST.get('image')
-    canvas_string = canvas_string.partition(",")[2]
-    im_bytes = base64.b64decode(canvas_string)
-    im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
-    
-    image = cv2.imdecode(im_arr, flags=cv2.IMREAD_GRAYSCALE)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    image = loadImageWithBg(request)
+    image = cv2.cvtColor(image, cv2.COLOR_RGBA2GRAY)
     image = cv2.resize(image, (256, 256), interpolation = cv2.INTER_AREA)
     
     img_str = cv2.imencode('.png',image)[1].tostring()
@@ -90,16 +71,12 @@ def toBwModel(request):
     return img_str
 
 def edgeToBwModel(request):
-    canvas_string = request.POST.get('image')
-    canvas_string = canvas_string.partition(",")[2]
-    im_bytes = base64.b64decode(canvas_string)
-    im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
-    
-    image = cv2.imdecode(im_arr, flags=cv2.IMREAD_GRAYSCALE)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    edges = cv2.resize(image, (256, 256), interpolation = cv2.INTER_AREA)
-    
     edge_weight = int(request.POST.get('slider'))
+    
+    image = loadImageWithBg(request)
+    edges=cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
+    
+    edges = detect_edges(image)
     bw_edges = sketchProcessing(edges, edge_weight)
     bw_edges_image = Image.fromarray(bw_edges)
     buffered = BytesIO()

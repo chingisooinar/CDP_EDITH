@@ -6,7 +6,9 @@ Created on Mon Nov 22 14:26:14 2021
 """
 
 from api.AiModels import *
-    
+import base64
+from io import BytesIO
+
 class GeneratorUNet(nn.Module):
     def __init__(self, in_channels=3, out_channels=3):
         super(GeneratorUNet, self).__init__()
@@ -235,6 +237,21 @@ def inpaintingProcessing(image):
         dst = cv2.cvtColor(dst, cv2.COLOR_GRAY2RGB)
     return dst#, img
 
+
+def loadImageWithBg(request):
+    canvas_string = request.POST.get('image')
+    canvas_string = canvas_string.partition(",")[2]
+    
+    imgdata = base64.b64decode(canvas_string)
+    dataBytesIO = BytesIO(imgdata)
+    image = Image.open(dataBytesIO)
+    numpy_image=np.array(image)  
+    
+    with_bg = transparence2white(numpy_image)
+    
+    return with_bg
+    
+    
 def colorizeProcessing(bw):
     
     _transforms = transforms.Compose(
@@ -271,6 +288,14 @@ def colorizeProcessing(bw):
     dst = cv2.fastNlMeansDenoisingColored(img,None,8,8,7,21)
     return dst #, img
 
+def transparence2white(img):
+
+    for yh in range(256):
+        for xw in range(256):
+            color_d=img[xw,yh] 
+            if(color_d[3]==0): 
+                img[xw,yh]=[255,255,255,255]  
+    return img
 
 def mark(img_gray, image):
     """
