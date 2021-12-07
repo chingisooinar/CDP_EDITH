@@ -7,15 +7,17 @@ import pickle
 import cv2
 import json
 import torchvision.transforms as T
-
+import torchvision.transforms.functional as TF
 import random
 from PIL import Image
 class BWAnimeFaceDataset(Dataset):
-    def __init__(self, images, annotation, transforms, mode='colorize'):
+    def __init__(self, images, annotation=None, transforms=None, mode='colorize'):
         # tag's one-hot, image-bytes
         self.images = images
-        with open(annotation) as f:
-            self.annotation = json.load(f)
+        self.annotation = None
+        if annotation is not None:
+            with open(annotation) as f:
+                self.annotation = json.load(f)
         self.t = transforms
         self.mode = mode
         self.normalize = lambda x: (x - 127.5)/127.5
@@ -26,14 +28,31 @@ class BWAnimeFaceDataset(Dataset):
         img_gray_edges = cv2.bitwise_not(img_gray_edges) # invert black/white
         img_edges = cv2.cvtColor(img_gray_edges, cv2.COLOR_GRAY2RGB)
         return img_edges
-
+    def __createMask(self, img):
+     ## Prepare masking matrix
+     mask = np.full((256,256,3), 255, np.uint8) ## White background
+     for _ in range(np.random.randint(1, 10)):
+       # Get random x locations to start line
+       x1, x2 = np.random.randint(1, 256), np.random.randint(1, 256)
+       # Get random y locations to start line
+       y1, y2 = np.random.randint(1, 256), np.random.randint(1, 256)
+       # Get random thickness of the line drawn
+       thickness = np.random.randint(1, 15)
+       # Draw black line on the white mask
+       cv2.line(mask,(x1,y1),(x2,y2),(0,0,0),thickness)
+     ## Mask the image
+     masked_image = img.copy()
+     masked_image[mask==0] = 255
+     return masked_image, mask
     def __getitem__(self, index):
         filename = self.images[index]
-        tag_one_hot = np.asarray(self.annotation[filename][:6] + self.annotation[filename][7:8])
-        assert len(tag_one_hot) == 7
+        if self.mode not in ('colorize', 'sketch', 'inpaint'):
+            tag_one_hot = np.asarray(self.annotation[filename])
+            #assert len(tag_one_hot) == 6
         image = cv2.imread(filename)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        image = cv2.resize(image, (256, 256), interpolation = cv2.INTER_AREA)
+        if self.mode in ('colorize', 'sketch', 'inpaint'):
+            image = cv2.resize(image, (256, 256), interpolation = cv2.INTER_AREA)
         if self.mode == 'colorize':
             img_gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
             img_gray = cv2.cvtColor(img_gray, cv2.COLOR_GRAY2RGB)
@@ -47,12 +66,29 @@ class BWAnimeFaceDataset(Dataset):
             edges = self.detect_edges(image)
             img = edges
             image = img_gray
+        elif self.mode == 'inpaint':
+            img, mask = self.__createMask(image)
+            if random.uniform(0, 1) > 0.4:
+                edges = self.detect_edges(image)
+                edges[mask!=0] = 0
+                guided = img.copy()
+                guided[mask==0]=0
+                guided += edges
+                img = guided
+
+            if random.uniform(0, 1) > 0.5:
+                img = cv2.cvtColor(cv2.cvtColor(img, cv2.COLOR_RGB2GRAY), cv2.COLOR_GRAY2RGB)
+            
+            
         else:
-            img = image
+            img = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
         
         PIL_image = Image.fromarray(np.uint8(img)).convert('RGB')
-        if self.mode in ('colorize', 'sketch'):
+        if self.mode in ('colorize', 'sketch',  'inpaint'):
             og_PIL = Image.fromarray(np.uint8(image)).convert('RGB')
+            if random.random() > 0.5:
+                PIL_image = TF.hflip(PIL_image)
+                og_PIL = TF.hflip(og_PIL)
             return self.t(PIL_image), self.t(og_PIL)
         else:
             return tag_one_hot.astype('float32'), self.t(PIL_image)
@@ -66,7 +102,7 @@ class BWAnimeFaceDataset(Dataset):
         non_white_mask = np.sum(img, axis=-1) < 2.75
         non_white_y, non_white_x = np.nonzero(non_white_mask)
         # randomly sample non-white coordinates
-        choices = [300, 400, 800, 600]
+        choices = [300, 400, 600, 100, 150]
         n_non_white = len(non_white_y)
         n_color_points = min(n_non_white, random.choice(choices))
         idxs = np.random.choice(n_non_white, n_color_points, replace=False)
