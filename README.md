@@ -32,7 +32,9 @@ python manage.py runserver
 
 # Features
 
-- [Photo Inpainting](https://arxiv.org/pdf/1604.07379.pdf)
-- [Super Resolution](https://arxiv.org/pdf/1609.04802.pdf)
-- Image colourizing (Under consideration)
-- Anime theme generation (Under consideration)
+- Image Inpainting
+- Image colourizing 
+- Sketch to Image Conversion
+
+# Examples
+![Untitled](media/inp.png)
