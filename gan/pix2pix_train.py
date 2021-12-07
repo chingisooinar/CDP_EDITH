@@ -43,6 +43,7 @@ model_dump_path ='./bw_to_color/gan_models'
 logfile = './bw_to_color/training.log'
 males = glob('../Male_Character_Face_looking/*jpg')
 females = glob('../animefaces256cleaner_female/*jpg')
+MODE ='inpaint'
 transforms = transforms.Compose(
     [
         transforms.Resize(IMAGE_SIZE),
@@ -55,7 +56,7 @@ transforms = transforms.Compose(
 
 total = males + females
 
-dataset = BWAnimeFaceDataset(total, annotation=None, transforms=transforms, mode='inpaint')
+dataset = BWAnimeFaceDataset(total, annotation=None, transforms=transforms, mode=MODE)
 
 loader = DataLoader(
     dataset,
