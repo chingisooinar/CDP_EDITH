@@ -16,7 +16,7 @@ import shutil
 import torch
 from DeepFeatures import DeepFeatures
 parser = argparse.ArgumentParser(description='PyTorch kNN')
-parser.add_argument('--query', default='../animefaces256cleaner_female/', type=str, help='Directory of images you want to use to find nearest neighbours')
+parser.add_argument('--query', default='../animefaces256cleaner_female/', type=str, help='Directory of images you want to visualize')
 
 args = parser.parse_args()
 test_transform = transforms.Compose([
@@ -48,7 +48,5 @@ DF = DeepFeatures(model = model,
 images = []
 for i in range(10):
     batch_imgs, batch_labels, _ = next(iter(query_loader))
-    #images.append(batch_imgs)
-#images = torch.cat(images, 0)
     DF.write_embeddings(x = batch_imgs.to(device))
 DF.create_tensorboard_log()
