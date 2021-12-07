@@ -11,7 +11,7 @@
 
 # Objective
 
-- Provide a user-friendly web application that edits images quickly and with minimal user effort.
+- Provide a user-friendly web application that edits Anime characters quickly and with minimal user effort.
 # Requirements
 - Pytorch > 1.7
 - opencv
