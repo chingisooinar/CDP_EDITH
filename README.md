@@ -12,7 +12,10 @@
 # Objective
 
 - Provide a user-friendly web application that edits images quickly and with minimal user effort.
-
+# Requirements
+- Pytorch > 1.7
+- opencv
+- Django
 # How to run
 1. Clone this repo
 2. Download 3 files (https://drive.google.com/drive/folders/1CzI2phQFXHfC837MO_TnqXrmzlG3j_BL?usp=sharing)
