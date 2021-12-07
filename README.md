@@ -1,6 +1,6 @@
 # AI-Powered Anime Photo Editing Web App
 
-![Untitled](media/edith.png)
+![Untitled](media/EDITH.png)
 
 ## Members
 
