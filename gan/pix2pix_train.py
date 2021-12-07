@@ -30,23 +30,24 @@ import random
 from networks.pix2pix import PixDiscriminator
 from networks.pix2pix import GeneratorUNet
 import torchvision.utils as vutils
-
+from style_loss import StyleLoss
 
 # Hyperparameters etc.
 device = "cuda" if torch.cuda.is_available() else "cpu"
 LEARNING_RATE = 0.0002
-BATCH_SIZE = 128
+BATCH_SIZE = 64
 IMAGE_SIZE = 256
 CHANNELS_IMG = 3
 NUM_CLASSES = 9
 Z_DIM = 122
 
 LAMBDA_GP = 10
-tmp_path = './sketch_to_bw/training_temp_1/'
-model_dump_path ='./sketch_to_bw/gan_models'
+tmp_path = './bw_to_color/training_temp_1/'
+model_dump_path ='./bw_to_color/gan_models'
 transforms = transforms.Compose(
     [
         transforms.Resize(IMAGE_SIZE),
+
         transforms.ToTensor(),
         transforms.Normalize(
             [0.5 for _ in range(CHANNELS_IMG)], [0.5 for _ in range(CHANNELS_IMG)]),
@@ -54,16 +55,20 @@ transforms = transforms.Compose(
 )
 
 #females = glob('../Female_Character_Face/*jpg')
-males = glob('../animefaces256cleaner_female/*jpg')
+males = glob('../Male_Character_Face_looking/*jpg')
+females = glob('../animefaces256cleaner_female/*jpg')
 #males.extend(females)
-random.shuffle(males)
-annotation = 'animefaces256cleaner_female_annotation.json'
-dataset = BWAnimeFaceDataset(males, annotation, transforms, mode='sketch')
+random.shuffle(females)
+females = females[:len(males)]
+total = males + females
+
+dataset = BWAnimeFaceDataset(total, annotation=None, transforms=transforms, mode='inpaint')
 
 loader = DataLoader(
     dataset,
     batch_size=BATCH_SIZE,
     shuffle=True,
+    num_workers=8
 )
 
 # initialize gen and disc, note: discriminator should be called critic,
@@ -77,7 +82,7 @@ discriminator = PixDiscriminator().to(device)
 
 # for tensorboard plotting
 fixed_noise = torch.randn(32, Z_DIM).to(device)
-logfile = './sketch_to_bw/training.log'
+logfile = './bw_to_color/training.log'
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
@@ -101,13 +106,19 @@ unet.train()
 discriminator.train()
 criterion_GAN = torch.nn.MSELoss(reduction='mean')
 criterion_pixelwise = torch.nn.L1Loss()
-
+style_loss = StyleLoss()
 
 
 start_epoch = 0
 g_optimizer = torch.optim.Adam(unet.parameters(), lr=LEARNING_RATE, betas=(0.5, 0.999))
 d_optimizer = torch.optim.Adam(discriminator.parameters(), lr=LEARNING_RATE, betas=(0.5, 0.999))
 NUM_EPOCHS = 500
+cp = torch.load(f'{model_dump_path}/checkpoint.tar')
+unet.load_state_dict(cp['G'])
+discriminator.load_state_dict(cp['D'])
+d_optimizer.load_state_dict(cp['optimizer_D'])
+g_optimizer.load_state_dict(cp['optimizer_G'])
+start_epoch = cp['epoch']
 for epoch in range(start_epoch, start_epoch + NUM_EPOCHS):
 
     for batch_idx, (real_src, real_trg) in enumerate(loader):
@@ -140,7 +151,8 @@ for epoch in range(start_epoch, start_epoch + NUM_EPOCHS):
     
         loss_GAN = criterion_GAN(prediction, torch.ones(len(real_src), 1, 16, 16).cuda())
         loss_pixel = criterion_pixelwise(fake_trg, real_trg)
-        loss_G = loss_GAN + 100 * loss_pixel
+        loss_style = style_loss(fake_trg, real_trg)
+        loss_G = loss_GAN + 100 * loss_pixel + loss_style
     
         loss_G.backward()
         g_optimizer.step()
@@ -165,10 +177,10 @@ for epoch in range(start_epoch, start_epoch + NUM_EPOCHS):
                 img_grid_real = torchvision.utils.make_grid(real_src[:32], normalize=True)
                 img_grid_fake = torchvision.utils.make_grid(fake_trg[:32], normalize=True)
                 vutils.save_image(img_grid_real.data,
-                                  os.path.join(tmp_path, f'real_image_{step}.png'))
+                                  os.path.join(tmp_path, f'real_image_{step % 5}.png'))
 
                 vutils.save_image(img_grid_fake.data,
-                                  os.path.join(tmp_path, f'fake_image_{step}.png'))
+                                  os.path.join(tmp_path, f'fake_image_{step % 5}.png'))
 
                 logger.info('Saved intermediate file in {}'.format(os.path.join(tmp_path, 'fake_image_{step}.png')))
        
