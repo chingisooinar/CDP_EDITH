@@ -3,5 +3,5 @@
 # checkpont: https://drive.google.com/file/d/1zYC87yP6G45cwfvakcwWFFJbZwrY13_-/view?usp=sharing
 
 # How to run kNN
-* Download checkpont
+* Download checkpoint
 * run: python mine.py --reference DIR1 --query DIR2 --store DIR3
