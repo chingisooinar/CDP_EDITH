@@ -1,4 +1,4 @@
-__author__ = 'Wendong Xu'
+__author__ = 'Chingis Oinar'
 import os
 from torch.utils.data import Dataset
 import numpy as np
