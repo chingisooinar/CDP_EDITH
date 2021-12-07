@@ -38,3 +38,4 @@ python manage.py runserver
 
 # Examples
 ![Untitled](media/inp.png)
+![Untitled](media/flow.png)
